@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaalatehtävä Arpoja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #task-container, #leaderboard {
+            font-size: 1.2em;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            max-width: 600px;
+            background-color: #f9f9f9;
+        }
+        button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gaalatehtävä Arpoja</h1>
+    <div id="login-container">
+        <input type="text" id="username" placeholder="Kirjoita käyttäjätunnuksesi">
+        <button onclick="login()">Kirjaudu sisään</button>
+    </div>
+    <div id="game-container" style="display:none;">
+        <h2>Tervetuloa, <span id="user-display"></span>!</h2>
+        <div id="task-container">Paina nappia saadaksesi tehtävän!</div>
+        <button onclick="completeTask()">Tehty!</button>
+        <button onclick="generateTask()">Arvo uusi tehtävä</button>
+        <h3>Pisteesi: <span id="score">0</span></h3>
+    </div>
+    <div id="leaderboard">
+        <h3>Top 5 Pisteet</h3>
+        <ol id="top-scores"></ol>
+    </div>
+    <button onclick="location.href='index.html'">Vaihda versio1</button>
+    <script>
+        const tasks = [
+            "Muistojen metsästys – Kysy joltain hänen ikimuistoisimmasta juhlasta.",
+            "Tanssilattian taikuri – Saa joku mukaan tanssilattialle.",
+            "Paras yllättävä hetki – Kysy joltain hänen yllättävimmästä kokemuksesta.",
+            "Illan mysteerihenkilö – Esitä joku julkkis ja katso, kauanko paljastuminen kestää.",
+            "Gaalan supervoima – Kysy joltain, minkä supervoiman hän haluaisi illan ajaksi."
+        ];
+        let currentUser = null;
+        
+        function login() {
+            const username = document.getElementById("username").value.trim();
+            if (!username) return alert("Kirjoita käyttäjätunnus!");
+            
+            currentUser = username;
+            document.getElementById("user-display").innerText = username;
+            document.getElementById("login-container").style.display = "none";
+            document.getElementById("game-container").style.display = "block";
+            updateScore();
+            updateLeaderboard();
+        }
+        
+        function generateTask() {
+            const randomIndex = Math.floor(Math.random() * tasks.length);
+            document.getElementById("task-container").innerText = tasks[randomIndex];
+        }
+        
+        function completeTask() {
+            if (!currentUser) return;
+            let scores = JSON.parse(localStorage.getItem("scores")) || {};
+            scores[currentUser] = (scores[currentUser] || 0) + 1;
+            localStorage.setItem("scores", JSON.stringify(scores));
+            updateScore();
+            updateLeaderboard();
+            generateTask();
+        }
+        
+        function updateScore() {
+            if (!currentUser) return;
+            let scores = JSON.parse(localStorage.getItem("scores")) || {};
+            document.getElementById("score").innerText = scores[currentUser] || 0;
+        }
+        
+        function updateLeaderboard() {
+            let scores = JSON.parse(localStorage.getItem("scores")) || {};
+            let sortedScores = Object.entries(scores).sort((a, b) => b[1] - a[1]).slice(0, 5);
+            let leaderboardHTML = sortedScores.map(([user, score]) => `<li>${user}: ${score} pistettä</li>`).join(" ");
+            document.getElementById("top-scores").innerHTML = leaderboardHTML;
+        }
+    </script>
+</body>
+</html>
