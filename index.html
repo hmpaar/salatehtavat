@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gaalatehtävä Arpoja</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #task-container {
+            font-size: 1.5em;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            max-width: 600px;
+            background-color: #f9f9f9;
+        }
+        button {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gaalatehtävä Arpoja</h1>
+    <div id="task-container">Paina nappia saadaksesi tehtävän!</div>
+    <button onclick="generateTask()">Arvo tehtävä</button>
+
+    <script>
+        const tasks = [
+            "Muistojen metsästys – Kysy joltain hänen ikimuistoisimmasta juhlasta.",
+            "Tanssilattian taikuri – Saa joku mukaan tanssilattialle, vaikka hän epäröisi.",
+            "Paras yllättävä hetki – Kysy joltain, mikä on ollut hänen elämänsä yllättävin hetki.",
+            "Illan mysteerihenkilö – Esitä joku julkisuuden henkilö ja katso, kuinka kauan menee ennen kuin paljastut.",
+            "Elämä ilman työtä – Kysy, mitä joku tekisi, jos hänen ei tarvitsisi työskennellä lainkaan.",
+            "Gaalan supervoima – Kysy joltain, minkä supervoiman hän haluaisi illan ajaksi.",
+            "Illan paras tarinankertoja – Selvitä, kuka kertoo parhaat tarinat ja kuuntele yksi.",
+            "Illan tanssinimi – Keksi jollekin leikkimielinen artistinimi hänen tanssityylinsä perusteella.",
+            "Käänteinen small talk – Kysy ensin syvällinen kysymys ennen kuin vaihdat nimeä ja muita perusasioita.",
+            "Kolme suositusta – Pyydä joltain kolme suositusta (elokuva, kirja, ravintola, mitä tahansa)."
+        ];
+
+        function generateTask() {
+            const randomIndex = Math.floor(Math.random() * tasks.length);
+            document.getElementById("task-container").innerText = tasks[randomIndex];
+        }
+    </script>
+</body>
+</html>
